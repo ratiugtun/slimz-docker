@@ -1,0 +1,23 @@
+version: '3'
+services:
+    slims_db:
+        image: mariadb
+        container_name: slims_db
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=ch7_slims
+            - MYSQL_DATABASE=ch7_slims
+        volumes:
+            - ./db/data:/var/lib/mysql
+        ports:
+            - 3306:3306
+    slims:
+        build: ./app
+        container_name: slims
+        restart: always
+        depends_on: 
+            - slims_db
+        ports:
+            - 80:80
+        environment:
+            - BRANCH=master
